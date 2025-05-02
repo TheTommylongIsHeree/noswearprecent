@@ -1,0 +1,10 @@
+[project]
+name = "swearjar"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "better-profanity>=0.7.0",
+    "py-cord>=2.6.1",
+]
