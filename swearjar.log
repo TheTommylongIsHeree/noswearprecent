@@ -59,3 +59,56 @@
 [2025-05-04 11:33:23,249] INFO: msg from thetommylong: can i just give u a github repo (im not that dumb to not gitignore the .env)
 [2025-05-04 11:33:25,033] INFO: msg from negativezdev: neighbour
 [2025-05-04 11:33:31,658] INFO: msg from negativezdev: iik
+[2025-05-04 11:34:59,874] INFO: msg from thetommylong: hopefully no one on the is-a.dev server spies on my github lmao
+[2025-05-04 11:35:22,623] INFO: msg from negativezdev: lmao
+[2025-05-04 11:35:22,689] INFO: msg from thetommylong: since im decently active
+[2025-05-04 11:35:34,218] INFO: msg from thetommylong: https://github.com/TheTommylongIsHeree/noswearprecent
+[2025-05-04 11:36:28,949] INFO: msg from negativezdev: /ping
+[2025-05-04 11:36:56,844] INFO: msg from negativezdev: i gonna do my classic way
+[2025-05-04 11:42:46,598] INFO: bot ready.
+[2025-05-04 11:53:00,182] INFO: msg from negativezdev (Cu+Mg+Si+Zn): <@881389907539533875> u use disnake or discord.py rn?
+[2025-05-04 11:54:44,029] INFO: msg from negativezdev (Cu+Mg+Si+Zn): nvm
+[2025-05-04 11:54:57,377] INFO: msg from negativezdev (Cu+Mg+Si+Zn): <@881389907539533875>
+[2025-05-04 11:55:09,093] INFO: msg from negativezdev (Cu+Mg+Si+Zn): ```python
+import discord
+# import os
+from discord.ext import commands
+#You should also add my badwords checker too :(
+from . import logger, check  
+
+class Bot(commands.Bot):
+    def __init__(self, **kwargs):
+        intents = discord.Intents.default()
+        intents.message_content = True
+        super().__init__(
+            command_prefix="!",
+            intents=intents,
+            **kwargs
+        )
+        self.synced = False  
+        # for filename in os.listdir("./src/cogs"):
+        #     if filename.endswith(".py"):
+        #         self.load_extension(f"cogs.{filename[:-3]}")
+        self.tree.add_command(self.ping)
+
+    async def setup_hook(self):
+        if not self.synced:
+            self.synced = True
+            await self.tree.sync(guild=discord.Object(id=1360512592308600944)) # your rizzler's club id
+            logger.info("Commands synced")
+
+    async def on_ready(self):
+        logger.info(f"Bot ready. chocolate is isn't here")
+        await self.change_presence(activity=discord.Game(name="Rizzler's Club"),status=discord.Status.dnd)
+
+    async def on_message(self, message: discord.Message):
+        if not message.author.bot and message.guild:
+            logger.info(f"msg from {message.author}: {message.content}")
+            await message.reply(f"{await check(message.content)}")
+            await self.process_commands(message)  
+
+    async def ping(self, interaction: discord.Interaction):
+        await interaction.response.send_message(f"Pong! Latency is {self.latency:.2f}ms")
+```
+[2025-05-04 11:55:12,328] INFO: msg from negativezdev (Cu+Mg+Si+Zn): maybe this will work
+[2025-05-04 12:03:33,294] INFO: msg from thetommylong (TheTommylong): btw imma use ur checker but modified bc for loops are slow ASF
