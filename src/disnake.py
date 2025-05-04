@@ -1,14 +1,13 @@
-import discord
-from discord.commands import slash_command
+import disnake
+from disnake.ext import commands
 from . import logger, check
 
-class Bot(discord.Bot):
+class Bot(commands.InteractionBot):
     def __init__(self, **kwargs):
-        intents = discord.Intents.default()
+        intents = disnake.Intents.default()
         intents.message_content = True
         super().__init__(
-            debug_guilds = [1360512592308600944],
-            intents = intents,
+            intents=intents,
             **kwargs
         )
 
@@ -20,6 +19,6 @@ class Bot(discord.Bot):
             logger.info(f"msg from {message.author}: {message.content}")
             await message.reply(f"{await check(message.content)}")
 
-    @slash_command(description="Sends the bot's latency.", guild_ids=[1360512592308600944])
-    async def ping(self, ctx):
-        await ctx.respond(f"Pong! Latency is {round(self.latency * 1000)}ms")
+    @commands.slash_command(description="Sends the bot's latency.")
+    async def ping(self, inter: disnake.ApplicationCommandInteraction):
+        await inter.response.send_message(f"Pong! Latency is {round(self.latency * 1000)}ms")
